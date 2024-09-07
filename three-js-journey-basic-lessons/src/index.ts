@@ -12,6 +12,28 @@ window.addEventListener("mousemove", (event) => {
 
   console.log(`x: ${cursor.x}, y: ${cursor.y}`);
 });
+
+window.addEventListener("resize", () => {
+  // Update sizes
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+
+  // Update camera
+  camera.aspect = sizes.width / sizes.height;
+
+  // Update renderer
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
+window.addEventListener("dblclick", () => {
+  if (!document.fullscreenElement) {
+    canvas.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
 /**
  * Base
  */
@@ -20,8 +42,8 @@ const canvas = document.querySelector("canvas.webgl") as HTMLCanvasElement;
 if (!canvas) throw new Error("Canvas not found");
 // Sizes
 const sizes = {
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
 
 // Scene
@@ -55,6 +77,7 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // Animate
 const clock = new THREE.Clock();
