@@ -1,5 +1,5 @@
+import gsap from "gsap";
 import * as THREE from "three";
-
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
@@ -17,22 +17,6 @@ const cube1 = new THREE.Mesh(
 );
 
 group.add(cube1);
-
-const cube2 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-);
-cube2.position.x = -2;
-group.add(cube2);
-
-const cube3 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: 0x0000ff })
-);
-
-cube3.position.x = 2;
-
-group.add(cube3);
 
 // Sizes
 const sizes = {
@@ -56,4 +40,23 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 
-renderer.render(scene, camera);
+gsap.to(cube1.position, { duration: 1, delay: 1, x: 2 });
+gsap.to(cube1.position, { duration: 1, delay: 2, x: 0 });
+// Animation
+const clock = new THREE.Clock();
+
+const tick = () => {
+  // Clock
+  // const elapsedTime = clock.getElapsedTime();
+
+  // cube1.rotation.y = Math.sin(elapsedTime * 0.5);
+  // cube1.position.x = Math.cos(elapsedTime * 1.2);
+  // cube1.rotation.z = elapsedTime;
+
+  // update cubes rotation
+
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(tick);
+};
+
+tick();
